@@ -1,6 +1,5 @@
 package models
 
-
 import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
@@ -22,11 +21,9 @@ type Account struct {
 	Password string `json:"password"`
 	//Ip		 string `json:"ip"`
 	//time_reg		 string `json:"ip"`
-	Age 	 int 	`json:"age"`
-	Token    string `json:"token";sql:"-"`
-	Like 	[]Like `gorm:"foreignkey:AccountRefer"`
+	Age   int    `json:"age"`
+	Token string `json:"token";sql:"-"`
 }
-
 
 //Validate incoming user details...
 func (account *Account) Validate() (map[string]interface{}, bool) {
@@ -40,7 +37,7 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 	}
 
 	if account.Age > 100 || account.Age < 5 {
-		return u.Message(false,"Age is required"),false
+		return u.Message(false, "Age is required"), false
 	}
 
 	//Email must be unique
@@ -58,7 +55,7 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 	return u.Message(false, "Requirement passed"), true
 }
 
-func (account *Account) Create() (map[string]interface{}) {
+func (account *Account) Create() map[string]interface{} {
 
 	if resp, ok := account.Validate(); !ok {
 		return resp
@@ -86,7 +83,7 @@ func (account *Account) Create() (map[string]interface{}) {
 	return response
 }
 
-func Login(email, password string) (map[string]interface{}) {
+func Login(email, password string) map[string]interface{} {
 
 	account := &Account{}
 	err := GetDB().Table("accounts").Where("email = ?", email).First(account).Error

@@ -1,4 +1,3 @@
-
 package models
 
 import (
@@ -32,7 +31,7 @@ func init() {
 	}
 
 	db = conn
-	db.Debug().AutoMigrate(&Account{},&Likes{})
+	db.Debug().AutoMigrate(&Account{}, &Post{}, &Like{})
 }
 
 func GetDB() *gorm.DB {
